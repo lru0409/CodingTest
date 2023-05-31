@@ -9,19 +9,16 @@ int main (void)
 	cin >> n >> b;
 
 	int result = 0;
-	int num1, num2;
-	for(int i = 0; i < n.length(); i++)
+	int num1;
+	int num2 = 1;
+	for(int i = n.length() - 1; i >= 0; i--)
 	{
-		if ((int)'A' <= (int)n[i] && (int)n[i] <= (int)'Z') // 알파벳이라면
-			num1 = (int)n[i] - 55;
+		if ((int)'A' <= (int)n[i]) // 알파벳이라면
+			num1 = (int)n[i] - 'A' + 10;
 		else // 숫자라면
-			num1 = (int)n[i] - 48;
-
-		num2 = 1;
-		for(int j = 0; j < n.length() - i - 1; j++)
-			num2 *= b;
-
+			num1 = (int)n[i] - '0';
 		result += num1 * num2;
+		num2 *= b;
 	}
 	cout << result << endl;
 
