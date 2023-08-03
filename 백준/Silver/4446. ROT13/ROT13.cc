@@ -37,10 +37,8 @@ int main()
 	ios_base::sync_with_stdio(false);
 
 	string str;
-	while (!cin.eof())
+	while (getline(cin, str))
 	{
-		getline(cin, str);
-		
 		int idx = 0;
 		int alpha;
 		while (str[idx])
