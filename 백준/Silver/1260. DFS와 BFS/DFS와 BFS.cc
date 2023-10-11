@@ -23,8 +23,8 @@ void BFS(int V)
 			int next = graph[cur][i];
 			if (visited[next]) continue;
 			cout << next << " ";
-			Q.push(next);
 			visited[next] = true;
+			Q.push(next);
 		}
 	}
 	cout << endl;
@@ -33,11 +33,11 @@ void BFS(int V)
 void DFS(int cur)
 {
 	cout << cur << " ";
+	visited[cur] = true;
 	for(int i = 0; i < graph[cur].size(); i++)
 	{
 		int next = graph[cur][i];
 		if (visited[next]) continue;
-		visited[next] = true;
 		DFS(next);
 	}
 }
@@ -63,7 +63,6 @@ int main()
 		sort(graph[i].begin(), graph[i].end());
 
 	initVisited(N);
-	visited[V] = true;
 	DFS(V);
 	cout << endl;
 
