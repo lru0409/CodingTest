@@ -1,6 +1,34 @@
 #include <iostream>
-#include <stack>
 using namespace std;
+
+class Stack
+{
+private:
+	int arr[10000];
+	int nextIdx;
+public:
+	Stack() : nextIdx(0) {}
+	void push(int x) {
+		arr[nextIdx] = x;
+		nextIdx += 1;
+	}
+	int pop() {
+		if (empty()) return (-1);
+		nextIdx -= 1;
+		return (arr[nextIdx]);
+	}
+	int size() {
+		return (nextIdx);
+	}
+	bool empty() {
+		if (nextIdx == 0) return (true);
+		return (false);
+	}
+	int top() {
+		if (empty()) return (-1);
+		return (arr[nextIdx - 1]);
+	}
+};
 
 int main()
 {
@@ -11,23 +39,19 @@ int main()
 	int N;
 	cin >> N;
 
-	stack<int> S;
+	Stack S;
 	for(int i = 0; i < N; i++)
 	{
 		string input;
 		cin >> input;
+
 		if (input == "push") {
 			int num;
 			cin >> num;
 			S.push(num);
 		}
 		else if (input == "pop") {
-			if (S.empty()) {
-				cout << -1 << '\n';
-			} else {
-				cout << S.top() << '\n';
-				S.pop();
-			}
+			cout << S.pop() << '\n';
 		}
 		else if (input == "size") {
 			cout << S.size() << '\n';
@@ -36,8 +60,7 @@ int main()
 			cout << S.empty() << '\n';
 		}
 		else if (input == "top") {
-			if (S.empty()) cout << -1 << '\n';
-			else cout << S.top() << '\n';
+			cout << S.top() << '\n';
 		}
 	}
 
