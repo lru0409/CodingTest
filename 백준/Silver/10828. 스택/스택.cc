@@ -5,28 +5,26 @@ class Stack
 {
 private:
 	int arr[10000];
-	int nextIdx;
+	int topIdx;
 public:
-	Stack() : nextIdx(0) {}
+	Stack() : topIdx(-1) {}
 	void push(int x) {
-		arr[nextIdx] = x;
-		nextIdx += 1;
+		topIdx += 1;
+		arr[topIdx] = x;
 	}
 	int pop() {
 		if (empty()) return (-1);
-		nextIdx -= 1;
-		return (arr[nextIdx]);
+		return (arr[topIdx--]);
 	}
 	int size() {
-		return (nextIdx);
+		return (topIdx + 1);
 	}
 	bool empty() {
-		if (nextIdx == 0) return (true);
-		return (false);
+		return (topIdx == -1);
 	}
 	int top() {
 		if (empty()) return (-1);
-		return (arr[nextIdx - 1]);
+		return (arr[topIdx]);
 	}
 };
 
