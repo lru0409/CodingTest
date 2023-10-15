@@ -10,14 +10,14 @@ int main()
 	for(int i = 0; i < T; i++)
 	{
 		cin >> H >> W >> N;
+		
 		// 층
 		int floor = N % H;
-		if (floor == 0) cout << H;
-		else cout << floor;
+		if (floor == 0) floor = H;
 		// 방 번호
 		int roomNum = ((N - 1) / H) + 1;
-		if (roomNum < 10) cout << 0;
-		cout << roomNum << endl;
+
+		cout << floor * 100 + roomNum << endl;
 	}
 
 	return 0;
