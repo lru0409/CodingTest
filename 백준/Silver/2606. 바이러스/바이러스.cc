@@ -4,12 +4,12 @@
 using namespace std;
 
 vector<int> network[101];
+bool visited[101];
 
 int BFS(int com)
 {
 	queue<int> Q;
 	Q.push(com);
-	bool visited[101] = { false, };
 	visited[com] = true;
 
 	int count = 0;
