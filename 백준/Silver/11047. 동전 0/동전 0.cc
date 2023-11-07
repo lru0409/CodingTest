@@ -14,16 +14,10 @@ int main()
 		cin >> coin[i];
 	
 	int result = 0;
-	int coin_idx = N - 1;
-	while (K && 0 <= coin_idx)
+	for(int i = N - 1; i >= 0; i--)
 	{
-		if (coin[coin_idx] <= K)
-		{
-			int count = K / coin[coin_idx];
-			result += count;
-			K -= coin[coin_idx] * count;
-		}
-		coin_idx -= 1;
+		result += K / coin[i];
+		K = K % coin[i];
 	}
 	cout << result << endl;
 
