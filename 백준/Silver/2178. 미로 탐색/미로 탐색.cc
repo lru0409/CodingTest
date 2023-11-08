@@ -15,42 +15,36 @@ int BFS(int x, int y)
 	Q.push(make_pair(x, y));
 	visited[x][y] = true;
 	dist[x][y] = 1;
-	int min_dist = 10000;
 
 	while (!Q.empty())
 	{
-		pair<int, int> cur = Q.front();
+		int cx = Q.front().first;
+		int cy = Q.front().second;
+		if (cx == N && cy == M) break;
 		Q.pop();
-		if (cur.first == N && cur.second == M)
-		{
-			if (dist[cur.first][cur.second] < min_dist)
-				min_dist = dist[cur.first][cur.second];
-			continue;
-		}
 		for(int i = 0; i < 4; i++)
 		{
-			int nx = cur.first + dx[i], ny = cur.second + dy[i];
+			int nx = cx + dx[i], ny = cy + dy[i];
 			if (nx < 1 || ny < 1 || nx > N || ny > M) continue;
 			if (visited[nx][ny] || map[nx][ny] == '0') continue;
 			visited[nx][ny] = true;
-			dist[nx][ny] = dist[cur.first][cur.second] + 1;
+			dist[nx][ny] = dist[cx][cy] + 1;
 			Q.push(make_pair(nx, ny));
 		}
 	}
-	return (min_dist);
+	return (dist[N][M]);
 }
 
 int main()
 {
 	cin >> N >> M;
+	string line;
 	for(int i = 1; i <= N; i++)
 	{
-		string line;
 		cin >> line;
 		for(int j = 0; j < M; j++)
 			map[i][j + 1] = line[j];
 	}
 	cout << BFS(1, 1) << endl;
-
 	return (0);
 }
