@@ -8,24 +8,23 @@ int main()
 	string S;
 	cin >> N >> M >> S;
 
-	string P;
-	for(int i = 0; i < 2 * N + 1; i++)
-	{
-		if (i % 2 == 0) P += 'I';
-		else P += 'O';
-	}
-
 	int count = 0;
 	for(int i = 0; i < M; i++)
 	{
-		int s_i = i, p_i = 0;
-		while (p_i < P.length() && s_i < S.length() && S[s_i] == P[p_i])
+		if (S[i] == 'I')
 		{
-			p_i++;
-			s_i++;
+			int j = 0;
+			while (i+2 < S.length() && S[i+1] == 'O' && S[i+2] == 'I')
+			{
+				i += 2;
+				j += 1;
+				if (j == N)
+				{
+					count++;
+					j -= 1;
+				}
+			}
 		}
-		if (p_i == P.length())
-			count++;
 	}
 	cout << count << endl;
 
