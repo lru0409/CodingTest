@@ -3,7 +3,7 @@ using namespace std;
 
 long long A, B, C;
 
-long long power(long long n)
+int power(int n)
 {
 	if (n == 1)
 		return (A % C);
