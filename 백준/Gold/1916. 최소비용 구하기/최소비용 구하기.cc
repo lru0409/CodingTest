@@ -42,11 +42,9 @@ void Dijkstra()
 		{
 			int ncity = Bus[cur][i].first;
 			int ncost = cost + Bus[cur][i].second;
-			if (ncost < dist[ncity])
-			{
-				dist[ncity] = ncost;
-				pq.push(make_pair(-ncost, ncity));
-			}
+			if (ncost >= dist[ncity]) continue;
+			dist[ncity] = ncost;
+			pq.push(make_pair(-ncost, ncity));
 		}
 	}
 	cout << (dist[destination]) << '\n';
