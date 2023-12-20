@@ -32,9 +32,7 @@ void Solve()
 	for(int k = 1; k <= n; k++) { // 경유 노드 선택
 		for(int i = 1; i <= n; i++) { // 출발 노드 선택
 			for(int j = 1; j <= n; j++) { // 도착 노드 선택
-				// dist[i][j] = min(dist[i][j], dist[i][k] + dist[k][j]);
-				if (dist[i][k] != INF && dist[k][j] != INF && dist[i][k] + dist[k][j] < dist[i][j])
-					dist[i][j] = dist[i][k] + dist[k][j];
+				dist[i][j] = min(dist[i][j], dist[i][k] + dist[k][j]);
 			}
 		}
 	}
