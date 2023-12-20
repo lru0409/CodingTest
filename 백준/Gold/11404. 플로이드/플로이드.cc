@@ -1,64 +1,49 @@
 #include <iostream>
-#include <vector>
-#include <queue>
+#include <algorithm>
 using namespace std;
 
 #define MAX 101
 #define INF 10000000
 
 int n, m; // 도시 개수, 버스 개수
-vector<pair<int, int> > bus[MAX];
-int result[MAX];
+int dist[MAX][MAX]; // [출발도시][도착도시] = 비용
 
 void Input()
 {
 	cin >> n >> m;
 
-	int a, b, c;
+	// 최단 거리 배열을 INF로 초기화
+	for(int i = 1; i <= n; i++) {
+		for(int j = 1; j <= n; j++) {
+			dist[i][j] = INF;
+			if (i == j) dist[i][j] = 0; // 자기 자신으로의 거리는 0으로 초기화
+		}
+	}
+	int a, b, c; // 출발도시, 도착도시, 비용
 	for(int i = 0; i < m; i++)
 	{
 		cin >> a >> b >> c;
-		bus[a].push_back(make_pair(b, c));
-	}
-}
-
-void Dijkstra(int start)
-{
-	priority_queue<pair<int, int>, vector<pair<int, int> >, greater<pair<int, int> > > PQ; // start로부터 거리, 도시번호
-	PQ.push(make_pair(0, start));
-	result[start] = 0;
-
-	while (!PQ.empty())
-	{
-		int dist = PQ.top().first;
-		int city = PQ.top().second;
-		PQ.pop();
-		if (result[city] < dist) continue;
-
-		for(size_t i = 0; i < bus[city].size(); i++)
-		{
-			int next_city = bus[city][i].first;
-			int next_dist = dist + bus[city][i].second;
-			if (result[next_city] < next_dist) continue;
-			PQ.push(make_pair(next_dist, next_city));
-			result[next_city] = next_dist;
-		}
+		dist[a][b] = min(dist[a][b], c);
 	}
 }
 
 void Solve()
 {
-	for(int i = 1; i <= n; i++)
-	{
-		// result 배열 초기화
-		for(int j = 1; j <= n; j++)
-			result[j] = INF;
-		Dijkstra(i); // 다익스트라로 최단 거리 구하기
-		// result 배열 출력
-		for(int j = 1; j <= n; j++)
-		{
-			if (result[j] == INF) cout << "0 ";
-			else cout << result[j] << ' ';
+	for(int k = 1; k <= n; k++) { // 경유 노드 선택
+		for(int i = 1; i <= n; i++) { // 출발 노드 선택
+			for(int j = 1; j <= n; j++) { // 도착 노드 선택
+				// dist[i][j] = min(dist[i][j], dist[i][k] + dist[k][j]);
+				if (dist[i][k] != INF && dist[k][j] != INF && dist[i][k] + dist[k][j] < dist[i][j])
+					dist[i][j] = dist[i][k] + dist[k][j];
+			}
+		}
+	}
+	
+	// 모든 도시 쌍에 대한 최소 비용 출력
+	for(int i = 1; i <= n; i++) {
+		for(int j = 1; j <= n; j++) {
+			if (dist[i][j] == INF) cout << "0 ";
+			else cout << dist[i][j] << ' ';
 		}
 		cout << '\n';
 	}
@@ -68,6 +53,5 @@ int main()
 {
 	Input();
 	Solve();
-
 	return (0);
 }
