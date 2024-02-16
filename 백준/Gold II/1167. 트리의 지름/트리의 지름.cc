@@ -6,28 +6,22 @@ using namespace std;
 
 int V;
 vector<pair<int, int> > tree[MAX]; // 각 정점에 대해 연결된 노드, 가중치
-bool visited[MAX] = { false, };
 int furthest_dist = 0;
 int furthest_node;
 
 // 특정 노드부터 가장 먼 노드와 그 거리 구하기
-void findFurthestNode(int from, int dist)
+void DFS(int cur, int prev, int dist)
 {
-	if (visited[from])
-		return;
-	visited[from] = true;
-
 	if (dist > furthest_dist)
 	{
 		furthest_dist = dist;
-		furthest_node = from;
+		furthest_node = cur;
 	}
 
-	for(size_t i = 0; i < tree[from].size(); i++)
+	for(size_t i = 0; i < tree[cur].size(); i++)
 	{
-		int to = tree[from][i].first;
-		int distance_to = tree[from][i].second;
-		findFurthestNode(to, dist + distance_to);
+		if (tree[cur][i].first != prev)
+			DFS(tree[cur][i].first, cur, dist + tree[cur][i].second);
 	}
 }
 
@@ -49,10 +43,8 @@ int main(void)
 		}
 	}
 
-	findFurthestNode(1, 0);
-	for(int i = 1; i <= V; i++)
-		visited[i] = false;
-	findFurthestNode(furthest_node, 0);
+	DFS(1, 0, 0);
+	DFS(furthest_node, 0, 0);
 	cout << furthest_dist << '\n';
 
 	return 0;
