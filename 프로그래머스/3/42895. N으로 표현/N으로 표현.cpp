@@ -3,7 +3,6 @@
 
 using namespace std;
 
-// #include <iostream>
 int solution(int N, int number)
 {
     unordered_set<int> dp[9]; // i개의 N을 가지고 만들 수 있는 숫자들
@@ -34,11 +33,6 @@ int solution(int N, int number)
                 }
             }
         }
-        // cout << "----- count: " << count << " ------\n";
-        // unordered_set<int>::iterator it;
-        // for(it = dp[count].begin(); it != dp[count].end(); it++)
-        //     cout << *it << ' ';
-        // cout << '\n';
         if (dp[count].find(number) != dp[count].end())
             return count;
     }
