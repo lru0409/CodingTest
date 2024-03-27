@@ -22,9 +22,6 @@ int main()
 		}
 	}
 
-	if (count_zero < count_one)
-		cout << count_zero << '\n';
-	else
-		cout << count_one << '\n';
+	cout << min(count_zero, count_one) << '\n';
 	return 0;
 }
