@@ -4,6 +4,26 @@
 
 using namespace std;
 
+void BFS(int start, vector<bool>& visited, int n, vector<vector<int>>& computers)
+{
+    queue<int> Q;
+    Q.push(start);
+    visited[start] = true;
+
+    while(!Q.empty())
+    {
+        int cur = Q.front();
+        Q.pop();
+        for(int i = 0; i < n; i++)
+        {
+            if (visited[i] || computers[cur][i] == 0)
+                continue;
+            visited[i] = true;
+            Q.push(i);
+        }   
+    }
+}
+
 int solution(int n, vector<vector<int>> computers)
 {
     int answer = 0;
@@ -13,22 +33,7 @@ int solution(int n, vector<vector<int>> computers)
     {
         if (visited[i])
             continue;
-    
-        queue<int> Q;
-        Q.push(i);
-        visited[i] = true;
-        while(!Q.empty())
-        {
-            int cur = Q.front();
-            Q.pop();
-            for(int j = 0; j < n; j++)
-            {
-                if (visited[j] || computers[cur][j] == 0)
-                    continue;
-                visited[j] = true;
-                Q.push(j);
-            }   
-        }
+        BFS(i, visited, n, computers);
         answer += 1;
     }
     
