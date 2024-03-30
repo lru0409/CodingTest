@@ -11,9 +11,7 @@ using namespace std;
 
 bool wall[101][101][2];
 
-#include <iostream>
-
-bool check_build(int x, int y, int type, int n) // 1 0 기둥  - 1 1 보 - 2 1 기둥
+bool check_build(int x, int y, int type, int n)
 {
     if (type == PILLAR) { // 기둥
         if (y == 0) return true; // 바닥 위
@@ -50,18 +48,6 @@ bool check_remove(int x, int y, int type, int n)
     return true;
 }
 
-// bool comp(vector<int> v1, vector<int> v2)
-// {
-//     if (v1[0] < v2[0]) return true;
-//     else if (v1[0] > v2[0]) return false;
-    
-//     if (v1[1] < v2[1]) return true;
-//     else if (v1[1] > v2[1]) return false;
-
-//     if (v1[2] <= v2[2]) return true;
-//     else return false;
-// }
-
 vector<vector<int>> solution(int n, vector<vector<int>> build_frame)
 {    
 	for(int i = 0; i < build_frame.size(); i++)
@@ -89,6 +75,5 @@ vector<vector<int>> solution(int n, vector<vector<int>> build_frame)
 				answer.push_back({i, j, BEAM});
         }
     }
-    
     return answer;
 }
