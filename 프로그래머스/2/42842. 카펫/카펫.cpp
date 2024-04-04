@@ -19,19 +19,3 @@ vector<int> solution(int brown, int yellow)
     answer.push_back(yh + 2);
     return answer;
 }
-
-
-// brown = y가로 * 2 + y세로 * 2 + 4
-
-
-// 24
-// 24 1
-// 12 2
-// 8 3
-// 6 4
-
-
-// 2000000
-// 2000000 1
-// 1000000 2
-// 
