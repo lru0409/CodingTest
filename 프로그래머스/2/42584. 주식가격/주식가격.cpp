@@ -1,24 +1,32 @@
 #include <string>
 #include <vector>
+#include <stack>
 
 using namespace std;
 
 vector<int> solution(vector<int> prices)
 {
-    vector<int> answer;
+    stack<int> stack;
+    vector<int> answer(prices.size());
 
-    for(int i = 0; i < prices.size() - 1; i++)
+    for(int i = 0; i < prices.size(); i++)
     {
-        int j = i + 1;
-        while(prices[i] <= prices[j])
+        // 현재 가격이 떨어진 과거의 시점 찾기
+        while(!stack.empty() &&
+                prices[stack.top()] > prices[i])
         {
-            if (j == prices.size() - 1)
-                break;
-            j++;   
+            // 가격이 떨어지지 않은 기간이 확정된 시점
+            answer[stack.top()] = i - stack.top();
+            stack.pop();
         }
-        answer.push_back(j - i);  
+        stack.push(i);
     }
-    answer.push_back(0);
+    
+    while(!stack.empty())
+    {
+        answer[stack.top()] = prices.size() - stack.top() - 1;
+        stack.pop();
+    }
     
     return answer;
 }
