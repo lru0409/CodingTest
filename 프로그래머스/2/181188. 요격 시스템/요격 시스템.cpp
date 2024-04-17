@@ -7,15 +7,6 @@ using namespace std;
 #define S 0
 #define E 1
 
-bool comp(vector<int> t1, vector<int> t2)
-{
-    if (t1[E] < t2[E])
-        return true;
-    return false;
-}
-
-#include <iostream>
-
 int solution(vector<vector<int>> targets)
 {
     sort(targets.begin(), targets.end());
