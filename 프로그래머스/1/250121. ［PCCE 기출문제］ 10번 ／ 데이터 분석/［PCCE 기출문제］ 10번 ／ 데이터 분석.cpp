@@ -15,13 +15,6 @@ int getIndex(string key)
     return index;
 }
 
-bool comp(vector<int> data1, vector<int> data2)
-{
-    if (data1[sort_by_index] < data2[sort_by_index])
-        return true;
-    return false;
-}
-
 vector<vector<int>> solution(vector<vector<int>> data, string ext, int val_ext, string sort_by)
 {
     vector<vector<int>> answer;
@@ -36,7 +29,9 @@ vector<vector<int>> solution(vector<vector<int>> data, string ext, int val_ext, 
     
     // sort_by 값을 기준으로 오름차순 정렬하기
     sort_by_index = getIndex(sort_by);
-    sort(answer.begin(), answer.end(), comp);
+    sort(answer.begin(), answer.end(), [](vector<int> data1, vector<int> data2) {
+        return data1[sort_by_index] <= data2[sort_by_index]; 
+    });
     
     return answer;
 }
