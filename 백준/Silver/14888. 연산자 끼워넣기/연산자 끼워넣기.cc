@@ -1,72 +1,70 @@
 #include <iostream>
 #include <vector>
+#include <algorithm>
 using namespace std;
-#define ADDITION 0
-#define SUBTRACTION 1
-#define MULTIPLICATION 2
-#define DIVISION 3
 
-int N, A[11];
-vector<int> operators;
-int combination[10];
-bool visited[10] = { false, };
-int minResult = 1000000000;
-int maxResult = -1000000000;
+#define PLUS 0
+#define MINUS 1
+#define MULTIPLY 2
+#define DIVIDE 3
 
-int calculate()
+int N;
+int numbers[11] = {0, };
+int op_cnt[4] = {0, };
+
+vector<int> ops;
+int min_result = 1000000000; 
+int max_result = -1000000000;
+
+int Calculate()
 {
-	int result = A[0];
-	for(int i = 1; i < N; i++)
+	int result = numbers[0];
+	int op_idx = 0;
+	for(int nbr_idx = 1; nbr_idx < N; nbr_idx++)
 	{
-		if (combination[i-1] == ADDITION) {
-			result += A[i];
-		} else if (combination[i-1] == SUBTRACTION) {
-			result -= A[i];
-		} else if (combination[i-1] == MULTIPLICATION) {
-			result *= A[i];
-		} else {
-			result /= A[i];
+		switch (ops[op_idx])
+		{
+			case PLUS: result += numbers[nbr_idx]; break;
+			case MINUS: result -= numbers[nbr_idx]; break;
+			case MULTIPLY: result *= numbers[nbr_idx]; break;
+			case DIVIDE: result /= numbers[nbr_idx]; break;
 		}
+		op_idx++;
 	}
-	return (result);
+	return result;
 }
 
-void DFS(int depth)
+void DFS()
 {
-	if (depth == N-1)
-	{
-		int result = calculate();
-		if (result < minResult) minResult = result;
-		if (result > maxResult) maxResult = result;
+	if (ops.size() == N - 1) {
+		int result = Calculate();
+		min_result = min(min_result, result);
+		max_result = max(max_result, result);
 		return;
 	}
-	int prev = -1;
-	for(int i = 0; i < N-1; i++)
-	{
-		if (visited[i]) continue;
-		if (operators[i] == prev) continue;
-		visited[i] = true;
-		prev = operators[i];
-		combination[depth] = operators[i];
-		DFS(depth + 1);
-		visited[i] = false;
+
+	for(int i = 0; i < 4; i++) {
+		if (op_cnt[i] == 0)
+			continue;
+		op_cnt[i] -= 1;
+		ops.push_back(i);
+		DFS();
+		ops.pop_back();
+		op_cnt[i] += 1;
 	}
 }
 
-int main(void)
+int main()
 {
 	cin >> N;
-	for(int i = 0; i < N; i++) cin >> A[i];
+	for(int i = 0; i < N; i++)
+		cin >> numbers[i];
 	for(int i = 0; i < 4; i++)
-	{
-		int count;
-		cin >> count;
-		for(int j = 0; j < count; j++) operators.push_back(i);
-	}
-	DFS(0);
-
-	cout << maxResult << endl;
-	cout << minResult << endl;
+		cin >> op_cnt[i];
+	
+	DFS();
+	cout << max_result << '\n';
+	cout << min_result << '\n';
 
 	return 0;
 }
