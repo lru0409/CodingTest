@@ -1,11 +1,3 @@
-// 1 2   4       8 9
-// 1 2 3 4 5 6 7 8 9
-
-// 1 2 3 4 5 6 7 8 9 10
-
-// 최대 : 첫집과 끝집 사이
-// 최소 : 1
-
 #include <iostream>
 #include <algorithm>
 #include <vector>
