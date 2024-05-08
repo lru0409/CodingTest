@@ -3,40 +3,36 @@
 #include <algorithm>
 using namespace std;
 
-vector<int> triangle[500];
-vector<int> dp[500];
-
 int main()
 {
-	int n, num;
+	int n, input;
 	cin >> n;
-	for(int i = 0; i < n; i++)
-	{
-		for(int j = 0; j <= i; j++)
-		{
-			cin >> num;
-			triangle[i].push_back(num);
-			dp[i].push_back(num);
+
+	vector<vector<int> > triangle(n);
+	for(int i = 0; i < n; i++) {
+		for(int j = 0; j <= i; j++) {
+			cin >> input;
+			triangle[i].push_back(input);
 		}
 	}
 
-	dp[0][0] = triangle[0][0];
-	for(int i = 0; i < n - 1; i++)
+	for(int i = 1; i < n; i++)
 	{
-		for(int j = 0; j <= i; j++)
+		for(int j = 0; j < triangle[i].size(); j++)
 		{
-			dp[i + 1][j] = max(dp[i + 1][j], dp[i][j] + triangle[i + 1][j]);
-			dp[i + 1][j + 1] = dp[i][j] + triangle[i + 1][j + 1];
+			if (j == 0)
+				triangle[i][j] += triangle[i-1][j];
+			else if (j == triangle[i].size()-1)
+				triangle[i][j] += triangle[i-1][j-1];
+			else
+				triangle[i][j] += max(triangle[i-1][j], triangle[i-1][j-1]);
 		}
 	}
 
-	int result = 0;
-	for(int i = 0; i < n; i++)
-	{
-		if (dp[n - 1][i] > result)
-			result = dp[n - 1][i];
-	}
-	cout << result << '\n';
+	int answer = 0;
+	for(int i = 0; i < triangle[n-1].size(); i++)
+		answer = max(answer, triangle[n-1][i]);
+	cout << answer << '\n';
 
-	return (0);
+	return 0;
 }
