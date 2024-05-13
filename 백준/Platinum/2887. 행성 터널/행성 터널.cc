@@ -1,10 +1,6 @@
 #include <iostream>
 #include <algorithm>
-#include <string>
-#include <stack>
 #include <vector>
-#include <queue>
-#include <map>
 
 #define pii pair<int, int>
 
@@ -15,11 +11,12 @@ vector<pair<int, int>> Y;
 vector<pair<int, int>> Z;
 
 vector<pair<int, pii>> info;
-int parent[100001];
+int parent[100000];
 
 int find(int x) {
-	if (parent[x] == x) return x;
-	return parent[x] = find(parent[x]);
+	if (parent[x] != x)
+		parent[x] = find(parent[x]);
+	return parent[x];
 }
 
 void unite(int a, int b) {
