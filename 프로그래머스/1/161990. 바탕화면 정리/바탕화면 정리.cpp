@@ -2,8 +2,6 @@
 #include <vector>
 #include <algorithm>
 
-#include <iostream>
-
 using namespace std;
 
 #define TOP 0
@@ -28,9 +26,6 @@ vector<int> solution(vector<string> wallpaper)
             pos[RIGHT] = max(pos[RIGHT], j + 1);
         }
     }
-    
-    for(int i = 0; i < 4; i++)
-        cout << pos[i] << ' ';
     
     return pos;
 }
