@@ -1,21 +1,22 @@
 function solution(today, terms, privacies) {
     
     const getDays = function(date) {
+        const [year, month, day] = date.split('.').map(Number);
         date = date.split('.').map(Number);
-        return ((date[0] - 2000) * 12 + date[1]) * 28 + date[2]; 
+        return (year * 12 + month) * 28 + day; 
     }
     
     const todayDays = getDays(today);
     const termsMap = new Map();
     for(term of terms) {
-        term = term.split(' ');
-        termsMap.set(term[0], parseInt(term[1]) * 28);
+        const [kind, year] = term.split(' ');
+        termsMap.set(kind, parseInt(year) * 28);
     }
     
     var answer = [];
     for (let i = 0; i < privacies.length; i++) {
-        const privacy = privacies[i].split(' ');
-        const privacyDays = getDays(privacy[0]) + termsMap.get(privacy[1]);
+        const [date, kind] = privacies[i].split(' ');
+        const privacyDays = getDays(date) + termsMap.get(kind);
         if (privacyDays <= todayDays)
             answer.push(i + 1);
     }
