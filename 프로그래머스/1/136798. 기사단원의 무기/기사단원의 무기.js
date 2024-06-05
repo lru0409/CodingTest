@@ -18,8 +18,3 @@ function solution(number, limit, power) {
 
     return answer;
 }
-
-
-
-// 15
-// 
