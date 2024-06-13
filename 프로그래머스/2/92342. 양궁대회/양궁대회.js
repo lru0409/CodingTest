@@ -16,28 +16,10 @@ function solution(n, info) {
             myTotalCount += arrowCounts[i];
         }
         if (maxScoreDiff <= myScore - opponentScore) {
+            maxScoreDiff = myScore - opponentScore;
             if (myTotalCount < n)
-                arrowCounts[10] += n - myTotalCount;
-            if (maxScoreDiff === myScore - opponentScore) {
-                for (let i = 10; i >= 0; i--) {
-                    if (answer[i] && arrowCounts[i]) {
-                        if (arrowCounts[i] < answer[i])
-                            break;
-                        maxScoreDiff = myScore - opponentScore;
-                        answer = arrowCounts;
-                        break;
-                    } else if (answer[i]) {
-                        break;                    
-                    } else if (arrowCounts[i]) {
-                        maxScoreDiff = myScore - opponentScore;
-                        answer = arrowCounts;
-                        break;
-                    }
-                }
-            } else {
-                maxScoreDiff = myScore - opponentScore;
-                answer = arrowCounts;
-            }
+                arrowCounts[10] = n - myTotalCount;
+            answer = arrowCounts;
         }
     }
     
@@ -60,6 +42,3 @@ function solution(n, info) {
         return [-1];
     return answer;
 }
-
-// 25
-// 29
