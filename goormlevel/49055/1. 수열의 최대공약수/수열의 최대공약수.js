@@ -15,36 +15,37 @@ const readline = require('readline');
 function solution(input) {
 	const N = parseInt(input[0]);
 	const A = input[1].split(' ').map(Number);
-	const maxA = A.reduce((accumulator, currentValue) => {
-		return Math.max(accumulator, currentValue);
-	});
-	const commonDivisorCounter = new Array(maxA + 1).fill(0);
+	const divisorCounter = new Map();
 	let gcd = 1;
 	
 	const addCounter = function(divisor) {
-		commonDivisorCounter[divisor]++;
-		if (commonDivisorCounter[divisor] === A.length && gcd < divisor)
-			gcd = divisor;
+		if (divisorCounter.has(divisor)) {
+			divisorCounter.set(divisor, divisorCounter.get(divisor) + 1);
+		} else {
+			divisorCounter.set(divisor, 1);
+		}
+		if (divisorCounter.get(divisor) === A.length && gcd < divisor)
+			gcd = divisor; // 기존 최대공약수 찾기
 	}
 	
+	// A에서 각 정수의 약수를 찾아 divisorCounter 맵에 합산
 	for (number of A) {
 		for (let i = 1; i <= Math.sqrt(number); i++) {
-			if (number % i !== 0) continue;
-			addCounter(i);
-			if (number / i !== i)
-				addCounter(number / i);
+			if (number % i === 0) {
+				addCounter(i);
+				if (number / i !== i)
+					addCounter(number / i);
+			}
 		}
 	}
 	
-	// divisor가 최대 공약수보다 크고 && count가 2 이상이면서 가장 큰 요소 찾기
-	let max_count = 1;
-	for (let i = gcd + 1; i <= maxA; i++) {
-		if (max_count < commonDivisorCounter[i])
-			max_count = commonDivisorCounter[i];
+	// divisor가 기존 최대공약수보다 크고 && count가 2 이상이면서 가장 큰 요소 찾기
+	let maxCount = 1;
+	for (const [divisor, count] of divisorCounter) {
+		if (gcd < divisor && maxCount < count)
+			maxCount = count;
 	}
 	
-	if (max_count === 1)
-		console.log(-1);
-	else
-		console.log(A.length - max_count);
+	const result = maxCount === 1 ? -1 : A.length - maxCount;
+	console.log(result);
 }
