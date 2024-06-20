@@ -29,7 +29,8 @@ function solution(input) {
 		room.push(input[i].split(' ').map(Number));
 	}
 	const cleaned = new Array(N).fill(null).map(() => Array(M).fill(false));
-	let answer = 0;
+	cleaned[robot[Y]][robot[X]] = true;
+	let answer = 1;
 
 	const move = function(cy, cx, dir) {
 		const ny = cy + DIR_Y[dir];
@@ -38,25 +39,20 @@ function solution(input) {
 	}
 
 	while (true) {
-		if (cleaned[robot[Y]][robot[X]] === false) {
-			cleaned[robot[Y]][robot[X]] = true;
-			answer++;
-		}
-		let clean = true;
-		for (let dir = 0; dir < 4; dir++) {
-			const [ny, nx] = move(robot[Y], robot[X], dir);
+		let cleanAround = true;
+		let dir_temp = robot[DIR];
+		for (let i = 0; i < 4; i++) {
+			dir_temp = (dir_temp + 3) % 4;
+			const [ny, nx] = move(robot[Y], robot[X], dir_temp);
 			if (room[ny][nx] !== WALL && cleaned[ny][nx] === false) {
-				clean = false;
+				cleanAround = false;
+				cleaned[ny][nx] = true;
+				[ robot[Y], robot[X], robot[DIR] ] = [ ny, nx, dir_temp ];
+				answer++;
 				break;
 			}
 		}
-		if (clean === false) {
-			robot[DIR] = (robot[DIR] + 3) % 4;
-			const [ny, nx] = move(robot[Y], robot[X], robot[DIR])
-			if (room[ny][nx] !== WALL && cleaned[ny][nx] === false) {
-				[robot[Y], robot[X]] = [ny, nx];
-			}
-		} else {
+		if (cleanAround === true) {
 			const [ny, nx] = move(robot[Y], robot[X], (robot[DIR] + 2) % 4);
 			if (room[ny][nx] === WALL)
 				break;
