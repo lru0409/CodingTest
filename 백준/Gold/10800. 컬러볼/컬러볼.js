@@ -19,25 +19,25 @@ rl.on('line', (line) => {
 function solution(N, balls) {
 	balls.sort((a, b) => a.size - b.size); // size 기준으로 balls 정렬
 
-	let tempBalls = [];
 	let sizeSum = 0; // size가 바뀔 때마다 업데이트되는 크기 누적합
-	const colorSizeSum = {}; // size가 바뀔 때마다 업데이트되는 색깔 별 크기 누적합
+	const sizeSumPerColor = {}; // size가 바뀔 때마다 업데이트되는 색깔 별 크기 누적합
 	let prevSize = balls[0].size;
+	let tempBalls = [];
 	const result = new Array(N).fill(0);
 
 	balls.forEach(({color, size, number}) => {
-		// 크기가 바뀔 때마다 sizeSum, colorSizeSum 업데이트
+		// 크기가 바뀔 때마다 sizeSum, sizeSumPerColor 업데이트
 		if (prevSize !== size) {
 			tempBalls.forEach(({color, size}) => {
 				sizeSum += size;
-				colorSizeSum[color] = colorSizeSum[color] || 0;
-				colorSizeSum[color] += size;
+				sizeSumPerColor[color] = sizeSumPerColor[color] || 0;
+				sizeSumPerColor[color] += size;
 			});
 			tempBalls = [];
 			prevSize = size;
 		}
 		// 지금까지 누적합 - 지금까지 같은 색상의 누적합
-		result[number - 1] = sizeSum - (colorSizeSum[color] || 0);
+		result[number - 1] = sizeSum - (sizeSumPerColor[color] || 0);
 		tempBalls.push({color, size});
 	});
 
