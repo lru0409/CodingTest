@@ -41,14 +41,11 @@ function solution(points, routes) {
         count += detectEmergency(robots);
         
         // 포인트에 도달한 로봇은 경로 업데이트 or 제거 100
-        robots = robots.filter(({ pos, route }) => {
-            if (pos[0] !== route[0][0]) return true;
-            if (pos[1] !== route[0][1]) return true;
-            if (route.length > 1) {
-                route.shift();
-                return true;
-            }
-            return false;
+        robots = robots.filter((robot) => {
+            const [cy, cx] = robot.pos;
+            const [ty, tx] = robot.route[0];
+            if (cy === ty && cx === tx) robot.route.shift();
+            return robot.route.length; 
         });
     }
     
