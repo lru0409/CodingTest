@@ -10,22 +10,20 @@ function solution(grid) {
     
     const processCycle = (y, x, d) => {
         let len = 0;
-        let cy = y, cx = x, cd = d;
         while (true) {
-            cy += DY[cd];
-            cx += DX[cd];
-            if (cy < 0) cy = Y - 1;
-            if (cy >= Y) cy = 0;
-            if (cx < 0) cx = X - 1;
-            if (cx >= X) cx = 0;
-            cd = (cd + DIR_MAP[grid[cy][cx]]) % 4;
+            // 이동시키고 방향 바꾸기
+            y += DY[d];
+            x += DX[d];
+            if (y < 0) y = Y - 1;
+            if (y >= Y) y = 0;
+            if (x < 0) x = X - 1;
+            if (x >= X) x = 0;
+            d = (d + DIR_MAP[grid[y][x]]) % 4;
             len++;
-            if (visited[cy][cx][cd]) {
-                if (cy === y && cx === x && cd === d) answer.push(len);
-                break;
-            }
-            visited[cy][cx][cd] = true;
+            if (visited[y][x][d]) break;
+            visited[y][x][d] = true;
         }
+        return len;
     }
     
     const answer = [];
@@ -35,7 +33,7 @@ function solution(grid) {
             for (let d = 0; d < 4; d++) {
                 if (visited[y][x][d]) continue;
                 visited[y][x][d] = true;
-                processCycle(y, x, d);
+                answer.push(processCycle(y, x, d));
             }
         }
     }
